@@ -4,6 +4,7 @@ import { LessonContent } from './types';
 import Wire3D from './components/Wire3D';
 import OhmsChart from './components/OhmsChart';
 import CircuitSim from './components/CircuitSim';
+import KirchhoffSim from './components/KirchhoffSim'; // Import the new component
 import Quiz from './components/Quiz';
 import { 
   Menu, X, ChevronRight, ChevronLeft, BookOpen, Activity, 
@@ -11,9 +12,10 @@ import {
   Layers, Star, BrainCircuit
 } from 'lucide-react';
 
-type Tab = 'THEORY' | 'EXAM_TRICKS' | 'SIMULATION' | 'QUIZ';
+// ... existing type Tab ...
 
 const App: React.FC = () => {
+  // ... existing state hooks ...
   const [activeLessonId, setActiveLessonId] = useState<string>(LESSONS[0].id);
   const [activeTab, setActiveTab] = useState<Tab>('THEORY');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -40,6 +42,7 @@ const App: React.FC = () => {
   const renderSimulation = (lesson: LessonContent) => {
     switch (lesson.simulationType) {
       case 'WIRE':
+        // ... existing WIRE code ...
         return (
           <div className="space-y-8 animate-fadeIn">
             <div className="bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden">
@@ -135,34 +138,14 @@ const App: React.FC = () => {
       case 'CLOSED_CIRCUIT':
         return <CircuitSim type="CLOSED_CIRCUIT" />;
       case 'KIRCHHOFF':
-        return (
-          <div className="bg-slate-900 p-12 rounded-3xl border border-slate-800 text-center min-h-[500px] flex flex-col items-center justify-center relative overflow-hidden">
-             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-30"></div>
-             <div className="bg-slate-800 p-8 rounded-full mb-8 relative border border-slate-700">
-               <div className="absolute inset-0 bg-yellow-500/10 blur-2xl rounded-full animate-pulse"></div>
-               <Lightbulb size={64} className="text-yellow-500 relative z-10" />
-             </div>
-             <h3 className="text-3xl font-bold text-white mb-4">محاكاة كيرشوف المتقدمة</h3>
-             <p className="text-slate-400 max-w-lg mx-auto mb-8 text-lg leading-relaxed">
-               لإتقان كيرشوف، يجب أولاً التمكن من توزيع الجهد والتيار في الدوائر البسيطة. نوصي بالتدرب على محاكي "توصيل المقاومات".
-             </p>
-             <button 
-               onClick={() => {
-                 const l2 = LESSONS.find(l => l.id === 'L2');
-                 if(l2) handleLessonChange('L2');
-                 setTimeout(() => setActiveTab('SIMULATION'), 100);
-               }}
-               className="bg-slate-800 hover:bg-yellow-500 hover:text-slate-900 text-white px-8 py-4 rounded-xl border border-slate-700 transition-all flex items-center gap-3 font-bold"
-             >
-               الذهاب لمختبر المقاومات <ChevronLeft size={20} />
-             </button>
-          </div>
-        );
+        // Use the new component here
+        return <KirchhoffSim />;
       default:
         return <div>Sim not found</div>;
     }
   };
 
+  // ... existing return ...
   return (
     <div className="min-h-screen bg-slate-950 text-slate-50 font-cairo flex flex-col md:flex-row overflow-hidden selection:bg-yellow-500/30 selection:text-white">
       
